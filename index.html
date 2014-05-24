@@ -66,31 +66,49 @@
 </div>
 <!-- wrap end -->
 
+<script type="text/javascript">
+// prevent scrolling
+document.body.addEventListener('touchmove', function(event) {
+  event.preventDefault();
+}, false);
+</script>
 
 <script type="text/javascript" src="/js/requestNextAnimationFrame.js"></script>
 <script type="text/javascript" src="/js/engine.js"></script>
+<script type="text/javascript" src="/js/gravity.js"></script>
 <script type="text/javascript">
 var game = new Game('gravity', 'gameCanvas');
 
 var physics = {
     t : 0,
-    gravity : 9.81,
+    GRAVITY: 9.81,
     speed : 0,
     x : 0,
     y : 0
 }
+var lastTime = 0;
 
+function calculateFps() {
+    var now = (+new Date),
+        fps = 1000 / (now -lastTime);
+
+    lastTime = now;
+
+    return fps;
+}
 game.startAnimate = function () {
     var self = this;
     if (window.DeviceOrientationEvent) {
         window.addEventListener('deviceorientation', function (eventDate){
-                game.gamma = eventDate.gamma;
-                game.beta = eventDate.beta;
-                game.alpha = eventDate.alpha;
+                game.gravityDate = getGravity(eventDate);
+                game.gamma = eventDate.gamma.toFixed();
+                game.beta = eventDate.beta.toFixed();
+                game.alpha = eventDate.alpha.toFixed();
             });
     }
 };
 game.paintUnderSprites = function () {
+    //var gravity = window.getGravity;
     if (physics.y > this.context.canvas.height) {
         physics.y = 0;
         physics.t = 0;
@@ -102,6 +120,17 @@ game.paintUnderSprites = function () {
     this.context.arc(10, physics.y,
                5, 0, Math.PI*2, true);
     this.context.stroke();
+    this.context.fillStyle = 'cornflowerblue';
+    this.context.fillText(calculateFps().toFixed()  + 'fps', 20, 20);
+    /*
+    this.context.fillText('gamma='+this.gamma, 40, 60);
+    this.context.fillText('beta='+this.beta, 40, 80);
+    this.context.fillText('alpha='+this.alpha, 40, 100);
+    */
+    //this.context.fillText('xGravity=' + game.gravityDate.xGravity, 40, 120);
+    //this.context.fillText('yGravity=' + game.gravityDate.yGravity, 40, 140);
+    //this.context.fillText('xGravity=' + physics.GRAVITY * Math.sin(game.gamma), 40, 120);
+    //this.context.fillText('yGravity=' + physics.GRAVITY * Math.sin(game.beta), 40, 140);
 };
 game.paintOverSprites = function () {};
 game.endAnimate = function () {};
