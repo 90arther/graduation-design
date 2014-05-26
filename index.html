@@ -25,7 +25,7 @@
     @media screen and (min-width: 1000px){
         .wrap{width: 1000px;margin: 0 auto;}
     }
-    body{background:#eee;}
+    body{background:#eee;padding: 0;margin: 0;}
     .title{background: #FF801D;width:100%;border-radius: 3px;text-align: center;line-height: 2em;color: #fff;box-shadow: 1px 1px 1px #A6A6A6;}
     .pre{overflow:scroll;background: #3F3F3F;}
 
@@ -55,9 +55,7 @@
     <gcse:search></gcse:search>
     <!-- google search engine -->
 
-    <p>Please open with your mobile, THX!</p>
-
-    <canvas id="gameCanvas" width="300" height="300">
+    <canvas id="gameCanvas" width="320" height="500">
         Canvas not supported.
     </canvas>
 
@@ -100,39 +98,47 @@ game.startAnimate = function () {
     var self = this;
     if (window.DeviceOrientationEvent) {
         window.addEventListener('deviceorientation', function (eventDate){
-                game.gravityDate = getGravity(eventDate);
-                game.gamma = eventDate.gamma.toFixed();
-                game.beta = eventDate.beta.toFixed();
-                game.alpha = eventDate.alpha.toFixed();
-            });
+            game.gravityDate = getGravity(eventDate);
+        });
     }
 };
 game.paintUnderSprites = function () {
+
+    var image = new Image();
+    //image.src = 'http://192.168.0.119/resource/bg1.jpg';
+    //this.context.drawImage(image, 0, 0)
+    this.context.lineWidth = 20;
+    this.context.fillStyle = "#f9e6ab";
+    this.context.fillRect(0, 0, 320, 480);
+    this.context.strokeStyle = "#e4a251";
+    this.context.strokeRect(0, 0, 320, 480);
+
+};
+game.paintOverSprites = function () {
     //var gravity = window.getGravity;
-    if (physics.y > this.context.canvas.height) {
+    if (physics.y > (this.context.canvas.height - 50)) {
         physics.y = 0;
         physics.t = 0;
     }else{
-        physics.y = physics.y + physics.t * physics.gravity;
+        physics.y = physics.y + physics.t * physics.GRAVITY;
         physics.t = physics.t + 0.1;
     }
     this.context.beginPath();
-    this.context.arc(10, physics.y,
+    this.context.arc(50, physics.y,
                5, 0, Math.PI*2, true);
     this.context.stroke();
     this.context.fillStyle = 'cornflowerblue';
-    this.context.fillText(calculateFps().toFixed()  + 'fps', 20, 20);
+    this.context.fillText(calculateFps().toFixed()  + 'fps', 280, 20);
     /*
     this.context.fillText('gamma='+this.gamma, 40, 60);
     this.context.fillText('beta='+this.beta, 40, 80);
     this.context.fillText('alpha='+this.alpha, 40, 100);
     */
-    //this.context.fillText('xGravity=' + game.gravityDate.xGravity, 40, 120);
-    //this.context.fillText('yGravity=' + game.gravityDate.yGravity, 40, 140);
+    //this.context.fillText('xGravity=' + this.gravityDate.xGravity, 40, 120);
+    //this.context.fillText('yGravity=' + this.gravityDate.yGravity, 40, 140);
     //this.context.fillText('xGravity=' + physics.GRAVITY * Math.sin(game.gamma), 40, 120);
     //this.context.fillText('yGravity=' + physics.GRAVITY * Math.sin(game.beta), 40, 140);
 };
-game.paintOverSprites = function () {};
 game.endAnimate = function () {};
 game.start();
 </script>
