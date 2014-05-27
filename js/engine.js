@@ -18,6 +18,7 @@ var Game = function (gameName, canvasId) {
     this.gameName = gameName;
     this.sprites = [];
     this.keyListeners = [];
+    this.debug = true;
 
     //High scores
 
@@ -83,7 +84,7 @@ Game.prototype = {
         var image = new Image(),
             self  = this;
 
-        images.src = imageUrl;
+        image.src = imageUrl;
 
         image.addEventListener('load',
             function (e) {
@@ -106,7 +107,7 @@ Game.prototype = {
         }
 
         return (this.imagesLoaded + this.imagesFailedToLoad) /
-                this.imagesUrls.length * 100;
+                this.imageUrls.length * 100;
     },
 
     queueImage: function (imageUrl) {
