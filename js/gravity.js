@@ -1,25 +1,83 @@
-function getGravity(e) {
-    var gamma = e.gamma || 0,
-        beta = e.beta || 0,
-        alpha = e.alpha || 0,
-        xGravity,
-        yGravity,
-        GRAVITY = 9.81;
+/*
+ * GravityEngine
+ * author: 90arther
+ * last-modifyed: 2014-05-28
+ */
+(function(window,undefined) {
 
-    if (parseInt(gamma) >= -90 && parseInt(gamma) <= 90) {
-        xGravity = GRAVITY * Math.sin(gamma);
-    }else{
-        xGravity = 0;
-    }
+    var gravityEngine = function(){
 
-    if (parseInt(beta) >= -90 && parseInt(beta) <=90) {
-        yGravity = GRAVITY * Math.sin(beta);
-    }else{
-        yGravity = 0;
-    }
+        var self = this;
 
-    return {
-        'xGravity': xGravity,
-        'yGravity': yGravity
-    }
-}
+        self.init();
+        self.start();
+
+    };
+
+
+    gravityEngine.prototype = {
+
+        constructor: gravityEngine,
+
+        init: function() {
+
+            var self = this;
+            self.data = {
+                gamma: 0,   // gamma is the left-to-right tilt in degrees, where right is positive
+                beta: 0,    // beta is the front-to-back tilt in degrees, where front is positive
+                alpha: 0,   // alpha is the compass direction the device is facing in degrees
+                GRAVITY: 9.81,
+                xGravity: 0,
+                yGravity: 0
+            };
+
+        },
+
+        start: function() {
+
+            var self = this,
+                o = self.data;
+
+            if (window.DeviceOrientationEvent) {
+                // Listen for the deviceorientation event and handle the raw data
+                window.addEventListener('deviceorientation', function(eventData) {
+                    self.updateGravity(self, eventData.gamma, eventData.beta, eventData.alpha);
+                }, false);
+            } else {
+                console.log("Not supported.");
+            }
+        },
+
+        updateGravity: function(self, gamma, beta, alpha) {
+
+            o = self.data;
+            // gamma is the left-to-right tilt in degrees, where right is positive
+            o.gamma = gamma;
+
+            // beta is the front-to-back tilt in degrees, where front is positive
+            o.beta = beta;
+
+            // alpha is the compass direction the device is facing in degrees
+            o.alpha = alpha
+
+        },
+
+        getGravity: function() {
+
+            var self = this,
+                o = self.data;
+
+            o.xGravity = o.GRAVITY * Math.sin(o.gamma);
+            o.yGravity = o.GRAVITY * Math.sin(o.beta);
+
+            return o.gamma;
+
+            return {
+                xGravity: o.xGravity,
+                yGravity: o.yGravity
+            }
+        }
+    };
+    window.GravityEngine = gravityEngine;
+
+}(window));
