@@ -15,23 +15,12 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
     <meta name="apple-touch-fullscreen" content="yes"/>
 
-    <!-- highlight start -->
-    <link rel="stylesheet" href="/common/highlightjs/zenburn.css" />
-    <script src="/common/highlightjs/highlight.min.js"></script>
-    <script>hljs.initHighlightingOnLoad();</script>
-    <!-- highlight end -->
-
-    <style type="text/css">
-    body{background:#eee;padding: 0;margin: 0;}
-    .pre{overflow:scroll;background: #3F3F3F;}
-
-    </style>
     <link rel="stylesheet" href="/css/game.css"/>
 
 </head>
 <body>
 
-<canvas id="gameCanvas" width="560" height="700">
+<canvas id="gameCanvas" width="320" height="500">
     Canvas not supported.
 </canvas>
 
@@ -108,20 +97,19 @@
     <source src='/resource/sound/whoosh.mp3' type='audio/mp3'>
 </audio>
 
-<script src = '/js/requestNextAnimationFrame.js'></script>
-<script src = '/js/roundedRectangle.js'></script>
-<script src = '/js/progressbar.js'></script>
-<script src = '/js/engine.js'></script>
-<script src = '/js/ungame.js'></script>
-
 <script type="text/javascript">
 // prevent scrolling
 document.body.addEventListener('touchmove', function(event) {
   event.preventDefault();
 }, false);
 </script>
-<script type="text/javascript" src="/js/gravity.js"></script>
-<script type="text/javascript" src="/js/initial.js"></script>
+
+<script src = '/js/requestNextAnimationFrame.js'></script>
+<script src = '/js/roundedRectangle.js'></script>
+<script src = '/js/progressbar.js'></script>
+<script src = '/js/engine.js'></script>
+<script src = '/js/gravity.js'></script>
+<script src = '/js/ungame.js'></script>
 
 
 <!-- baidu sitecenter and google-analytics start -->

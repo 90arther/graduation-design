@@ -1,4 +1,13 @@
-var game = new Game('ungame', 'gameCanvas'),
+var game = new Game('ungame', 'gameCanvas');
+var gravity = new GravityEngine();
+var g = gravity.getGravity();
+var physics = {
+    t : 0,
+    GRAVITY: 9.81,
+    speed : 0,
+    x : 0,
+    y : 0
+}
 
 // Loading....................................................
 
@@ -141,6 +150,24 @@ paintNearCloud = function (context, x, y) {
    context.restore();
 },
 
+paintBackground = function (context, x, y) {
+    context.save();
+    var image = new Image();
+    image.src = 'https://raw.githubusercontent.com/90arther/graduation-design/feature-gravity/resource/bg1.jpg';
+    context.drawImage(image, x, y)
+    context.restore();
+},
+
+paintBall = function (context, x, y){
+    context.save();
+    physics.y = physics.y + g.yGravity/this.fps;
+    context.beginPath();
+    if( physics.y <= context.canvas.height || physics.y >= 0){
+        context.arc(20, physics.y, 5, 0, Math.PI*2, true);
+    }
+    context.stroke();
+    context.restore();
+},
 // Game over..................................................
 
 over = function () {
@@ -334,6 +361,8 @@ game.paintUnderSprites = function () { // Draw things other than sprites
       paintSun(game.context);
       paintFarCloud(game.context, 20, 20);
       paintFarCloud(game.context, game.context.canvas.width+20, 20);
+      paintBackground(game.context, 0, 0);
+      paintBall(game.context, 0, 0);
 
       if (!gameOver) {
          updateScore();

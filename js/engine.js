@@ -11,7 +11,6 @@ var Game = function (gameName, canvasId) {
     var canvas = document.getElementById(canvasId) || null,
         self   = this;
 
-
     //General
 
     this.context = canvas.getContext('2d');
@@ -214,7 +213,7 @@ Game.prototype = {
         return JSON.parse(localStorage[key]);
     },
 
-    setHighScore: function () {
+    setHighScore: function (highScore) {
         var key = this.gameName + this.HIGH_SCORES_SUFFIX,
             highScoresString = localStorage[key];
 

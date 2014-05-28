@@ -67,12 +67,13 @@
             var self = this,
                 o = self.data;
 
-            o.xGravity = o.GRAVITY * Math.sin(o.gamma);
-            o.yGravity = o.GRAVITY * Math.sin(o.beta);
-
-            return o.gamma;
+            o.xGravity = o.GRAVITY * Math.sin(o.gamma * 2 * Math.PI/360);
+            o.yGravity = o.GRAVITY * Math.sin(o.beta * 2 * Math.PI/360);
 
             return {
+                gamma: o.gamma,
+                beta: o.beta,
+                alpha: o.alpha,
                 xGravity: o.xGravity,
                 yGravity: o.yGravity
             }
