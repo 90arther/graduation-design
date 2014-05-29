@@ -1,12 +1,11 @@
 var game = new Game('ungame', 'gameCanvas');
 var gravity = new GravityEngine();
 var g = gravity.getGravity();
-var physics = {
-    t : 0,
-    GRAVITY: 9.81,
-    speed : 0,
-    x : 0,
-    y : 0
+var ball = {
+    x : 0,  //水平坐标
+    y : 0,  //垂直坐标
+    d : 5,  //直径
+    a : 0   //加速度
 }
 
 // Loading....................................................
@@ -164,16 +163,17 @@ paintBall = function (context){
         y = 0,
         g = gravity.getGravity();
 
-    physics.y = physics.y + g.yGravity/game.fps;
-    physics.x = physics.x + g.xGravity/game.fps;
 
-    if( physics.y <= context.canvas.height && physics.y >= 0){
-        y = physics.y * 100;
+    ball.x = ball.x + g.xGravity/game.fps;
+    ball.y = ball.y + g.yGravity/game.fps;
+
+    if( ball.y <= context.canvas.height  && ball.y >= 0){
+        y = ball.y * 100;
     } else {
         y = 0;
     }
-    if( physics.x <= context.canvas.width && physics.x >= 0){
-        x = physics.x * 100;
+    if( ball.x <= context.canvas.width && ball.x >= 0){
+        x = ball.x * 100;
     } else {
         x = 0;
     }
@@ -379,9 +379,9 @@ game.paintUnderSprites = function () { // Draw things other than sprites
    }
    else {
       paintSun(game.context);
-      paintFarCloud(game.context, 20, 20);
-      paintFarCloud(game.context, game.context.canvas.width+20, 20);
-      paintBackground(game.context, 0, 0);
+      //paintFarCloud(game.context, 20, 20);
+      //paintFarCloud(game.context, game.context.canvas.width+20, 20);
+      //paintBackground(game.context, 0, 0);
       paintBall(game.context, 0, 0);
 
       if (!gameOver) {
