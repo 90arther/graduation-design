@@ -158,15 +158,36 @@ paintBackground = function (context, x, y) {
     context.restore();
 },
 
-paintBall = function (context, x, y){
-    context.save();
-    physics.y = physics.y + g.yGravity/this.fps;
-    context.beginPath();
-    if( physics.y <= context.canvas.height || physics.y >= 0){
-        context.arc(20, physics.y, 5, 0, Math.PI*2, true);
+paintBall = function (context){
+
+    var x = 0,
+        y = 0,
+        g = gravity.getGravity();
+
+    physics.y = physics.y + g.yGravity/game.fps;
+    physics.x = physics.x + g.xGravity/game.fps;
+
+    if( physics.y <= context.canvas.height && physics.y >= 0){
+        y = physics.y * 100;
+    } else {
+        y = 0;
     }
+    if( physics.x <= context.canvas.width && physics.x >= 0){
+        x = physics.x * 100;
+    } else {
+        x = 0;
+    }
+
+    context.save();
+    context.strokestyle = 'orange';
+    context.fillstyle = 'yellow';
+    context.linewidth = 1;
+    context.beginPath();
+    context.arc(x, y, 5, 0, Math.PI*2, true);
+    context.fill();
     context.stroke();
     context.restore();
+
 },
 // Game over..................................................
 
@@ -303,28 +324,27 @@ newGameFromHighScoresButton.onclick = function (e) {
 // is something in the nameInput field.
 
 nameInput.onkeyup = function (e) {
-   if (nameInput.value.length > 0) {
-      addMyScoreButton.disabled = false;
-   }
-   else {
-      addMyScoreButton.disabled = true;
-   }
+    if (nameInput.value.length > 0) {
+        addMyScoreButton.disabled = false;
+    }
+    else {
+        addMyScoreButton.disabled = true;
+    }
 };
 
 // Score Display..............................................
 
 updateScore = function () {
-   if ( !loading && game.lastScoreUpdate !== undefined) {
-      if (game.gameTime - game.lastScoreUpdate > 1000) {
-         scoreToast.style.display = 'inline';
-         score += 10;
-         scoreToast.innerHTML = score.toFixed(0);
-         game.lastScoreUpdate = game.gameTime;
-      }
-   }
-   else {
-      game.lastScoreUpdate = game.gameTime;
-   }
+    if ( !loading && game.lastScoreUpdate !== undefined) {
+        if (game.gameTime - game.lastScoreUpdate > 1000) {
+            scoreToast.style.display = 'inline';
+            score += 10;
+            scoreToast.innerHTML = score.toFixed(0);
+            game.lastScoreUpdate = game.gameTime;
+        }
+    }else {
+        game.lastScoreUpdate = game.gameTime;
+    }
 };
 
 // Lives Display..............................................
