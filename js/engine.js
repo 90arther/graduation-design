@@ -11,13 +11,13 @@ var Game = function (gameName, canvasId) {
     var canvas = document.getElementById(canvasId) || null,
         self   = this;
 
-
     //General
 
     this.context = canvas.getContext('2d');
     this.gameName = gameName;
     this.sprites = [];
     this.keyListeners = [];
+    this.debug = true;
 
     //High scores
 
@@ -83,7 +83,7 @@ Game.prototype = {
         var image = new Image(),
             self  = this;
 
-        images.src = imageUrl;
+        image.src = imageUrl;
 
         image.addEventListener('load',
             function (e) {
@@ -106,7 +106,7 @@ Game.prototype = {
         }
 
         return (this.imagesLoaded + this.imagesFailedToLoad) /
-                this.imagesUrls.length * 100;
+                this.imageUrls.length * 100;
     },
 
     queueImage: function (imageUrl) {
@@ -213,7 +213,7 @@ Game.prototype = {
         return JSON.parse(localStorage[key]);
     },
 
-    setHighScore: function () {
+    setHighScore: function (highScore) {
         var key = this.gameName + this.HIGH_SCORES_SUFFIX,
             highScoresString = localStorage[key];
 
