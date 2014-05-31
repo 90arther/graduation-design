@@ -2,8 +2,8 @@ var game = new Game('ungame', 'gameCanvas');
 var gravity = new GravityEngine();
 var g = gravity.getGravity();
 var ball = {
-    x : 0,  //水平坐标
-    y : 0,  //垂直坐标
+    x : 20,  //水平坐标
+    y : 20,  //垂直坐标
     d : 5,  //直径
     a : 0   //加速度
 }
@@ -17,7 +17,7 @@ loadingToastTitle = document.getElementById('loadingToastTitle'),
 loadingToastBlurb = document.getElementById('loadingToastBlurb'),
 loadButton = document.getElementById('loadButton'),
 progressDiv = document.getElementById('progressDiv'),
-progressbar = new COREHTML5.Progressbar(300, 25, 'rgba(0,0,0,0.5)', 100, 130, 250),
+progressbar = new COREHTML5.Progressbar(150, 25, 'rgba(0,0,0,0.5)', 100, 130, 250),
 
 // Score......................................................
 
@@ -152,7 +152,8 @@ paintNearCloud = function (context, x, y) {
 paintBackground = function (context, x, y) {
     context.save();
     var image = new Image();
-    image.src = 'https://raw.githubusercontent.com/90arther/graduation-design/feature-gravity/resource/bg1.jpg';
+    //image.src = 'https://raw.githubusercontent.com/90arther/graduation-design/feature-gravity/resource/bg1.jpg';
+    image.src = '/resource/leaf.png';
     context.drawImage(image, x, y)
     context.restore();
 },
@@ -163,28 +164,28 @@ paintBall = function (context){
         y = 0,
         g = gravity.getGravity();
 
+    x = ball.x + (g.xGravity/game.fps) * 100;
+    y = ball.y + (g.yGravity/game.fps) * 100;
 
-    ball.x = ball.x + g.xGravity/game.fps;
-    ball.y = ball.y + g.yGravity/game.fps;
-
-    if( ball.y <= context.canvas.height  && ball.y >= 0){
-        y = ball.y * 100;
-    } else {
-        y = 0;
+    if( y <= context.canvas.height  && y >= 0){
+        ball.y = y;
     }
-    if( ball.x <= context.canvas.width && ball.x >= 0){
-        x = ball.x * 100;
-    } else {
-        x = 0;
+    if( x <= context.canvas.width && x >= 0){
+        ball.x = x;
     }
 
     context.save();
+
     context.strokestyle = 'orange';
     context.fillstyle = 'yellow';
+    context.strokestyle = 'orange';
     context.linewidth = 1;
+
     context.beginPath();
-    context.arc(x, y, 5, 0, Math.PI*2, true);
+    context.arc(ball.x, ball.y, 15, 0, Math.PI*2, true);
     context.fill();
+    context.stroke();
+
     context.stroke();
     context.restore();
 
@@ -381,7 +382,7 @@ game.paintUnderSprites = function () { // Draw things other than sprites
       paintSun(game.context);
       //paintFarCloud(game.context, 20, 20);
       //paintFarCloud(game.context, game.context.canvas.width+20, 20);
-      //paintBackground(game.context, 0, 0);
+      paintBackground(game.context, 0, 0);
       paintBall(game.context, 0, 0);
 
       if (!gameOver) {

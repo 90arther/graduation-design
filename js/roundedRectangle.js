@@ -108,7 +108,7 @@ COREHTML5.RoundedRectangle.prototype = {
       this.context.closePath();
 
       this.context.fillStyle = this.fillStyle;
-		this.context.fill();
+    this.context.fill();
 	   this.context.shadowColor = undefined;
    },
 

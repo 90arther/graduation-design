@@ -1,3 +1,6 @@
+body {
+    margin: 0;
+}
 #loadingToast {
     padding: 20px;
     position: absolute;
@@ -47,14 +50,6 @@
 }
 #gameCanvas {
     background: rgba(120,168,249,0.7);
-    position: absolute;
-    left: 0px;
-    top: 0px;
-    -webkit-box-shadow: rgba(100,100,100,0.5) 4px 4px 8px;
-    -moz-box-shadow: rgba(100,140,230,0.5) 2px 2px 6px;
-    box-shadow: rgba(100,140,230,0.5) 2px 2px 6px;
-    -o-box-shadow: rgba(100,140,230,0.5) 2px 2px 6px;
-    border: thin solid cornflowerblue;
 }
 
 .floatingControls {
@@ -205,7 +200,7 @@ p.title {
 }
 
 #progressDiv {
-   padding-left: 60px;
+   padding-left: 20px;
    padding-top: 45px;
 }
 
