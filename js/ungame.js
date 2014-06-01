@@ -4,7 +4,9 @@ var g = gravity.getGravity();
 var ball = {
     x : 20,  //水平坐标
     y : 20,  //垂直坐标
-    d : 5,  //直径
+    d : 15,  //直径
+    xSpeed : 0,      //x速度
+    ySpeed : 0,      //y速度
     a : 0   //加速度
 }
 
@@ -164,13 +166,19 @@ paintBall = function (context){
         y = 0,
         g = gravity.getGravity();
 
-    x = ball.x + (g.xGravity/game.fps) * 100;
-    y = ball.y + (g.yGravity/game.fps) * 100;
+    //update speed
+    ball.xSpeed = ball.xSpeed + g.xGravity / game.fps;
+    ball.xSpeed = g.xGravity;
+    ball.ySpeed = ball.ySpeed + g.yGravity / game.fps;
+    ball.ySpeed = g.yGravity;
 
-    if( y <= context.canvas.height  && y >= 0){
+    x = ball.x + (ball.xSpeed / game.fps) * 100;
+    y = ball.y + (ball.ySpeed / game.fps) * 100;
+
+    if( y <= (context.canvas.height - ball.d) && y >= ball.d){
         ball.y = y;
     }
-    if( x <= context.canvas.width && x >= 0){
+    if( x <= (context.canvas.width -ball.d)&& x >= ball.d){
         ball.x = x;
     }
 
@@ -182,7 +190,7 @@ paintBall = function (context){
     context.linewidth = 1;
 
     context.beginPath();
-    context.arc(ball.x, ball.y, 15, 0, Math.PI*2, true);
+    context.arc(ball.x, ball.y, ball.d, 0, Math.PI*2, true);
     context.fill();
     context.stroke();
 
