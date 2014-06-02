@@ -17,7 +17,6 @@ var Game = function (gameName, canvasId) {
     this.gameName = gameName;
     this.sprites = [];
     this.keyListeners = [];
-    this.debug = true;
 
     //High scores
 

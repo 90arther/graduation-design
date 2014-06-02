@@ -1,5 +1,38 @@
 body {
     margin: 0;
+    font-family: Cablir;
+}
+.menu, .setting, .pause, .score{
+    position: absolute;
+    left: 55px;
+    top: 0;
+    width: 210px;
+    margin: 125px auto;
+}
+.btn-start, .btn-setting, .btn-fork, .btn-continue{
+    display: block;
+    width: 210px;
+    height: 70px;
+    margin: 10px 0;
+    font-size: 14px;
+    line-height: 70px;
+    text-align: center;
+    color: #000;
+    background: rgba(255, 255, 255, 0.6);
+    box-shadow: 1px 1px 1px #000;
+}
+.btn-pause{
+    position: absolute;
+    left: -50px;
+    top: -120px;
+    width: 35px;
+    height: 35px;
+    line-height: 35px;
+    text-align: center;
+    border-radius: 17.5px;
+    color: #000;
+    background: rgba(255, 255, 255, 0.6);
+    box-shadow: 1px 1px 1px #000;
 }
 #loadingToast {
     padding: 20px;

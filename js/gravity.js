@@ -1,7 +1,5 @@
 /*
- * GravityEngine
- * author: 90arther
- * last-modifyed: 2014-05-28
+ * *=GravityEngine
  */
 (function(window,undefined) {
 

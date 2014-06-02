@@ -5,9 +5,9 @@ var ball = {
     x : 20,  //水平坐标
     y : 20,  //垂直坐标
     d : 15,  //直径
-    xSpeed : 0,      //x速度
-    ySpeed : 0,      //y速度
-    a : 0   //加速度
+    xSpeed : 0,        //x速度
+    ySpeed : 0,        //y速度
+    a : 0    //加速度
 }
 
 // Loading....................................................
@@ -41,7 +41,7 @@ nameInput = document.getElementById('nameInput'),
 addMyScoreButton = document.getElementById('addMyScoreButton'),
 newGameButton = document.getElementById('newGameButton'),
 newGameFromHighScoresButton =
-      document.getElementById('newGameFromHighScoresButton'),
+        document.getElementById('newGameFromHighScoresButton'),
 clearHighScoresCheckbox = document.getElementById('clearHighScoresCheckbox'),
 
 // Lives......................................................
@@ -81,90 +81,89 @@ translateDelta = 0.025,
 translateOffset = 0,
 
 scrollBackground = function () {
-   translateOffset =
-      (translateOffset + translateDelta) % game.context.canvas.width;
-   game.context.translate(-translateOffset,0);
+    translateOffset =
+        (translateOffset + translateDelta) % game.context.canvas.width;
+    game.context.translate(-translateOffset,0);
 },
 
 // Paint Methods..............................................
 
 paintSun = function (context) {
-   context.save();
+    context.save();
 
-   context.strokeStyle = 'orange';
-   context.fillStyle = 'yellow';
-   context.strokeStyle = 'orange';
-   context.lineWidth = 1;
+    context.strokeStyle = 'orange';
+    context.fillStyle = 'yellow';
+    context.strokeStyle = 'orange';
+    context.lineWidth = 1;
 
-   context.beginPath();
-   context.arc(SUN_LEFT, SUN_TOP, SUN_RADIUS, 0, Math.PI*2, true);
-   context.fill();
-   context.stroke();
+    context.beginPath();
+    context.arc(SUN_LEFT, SUN_TOP, SUN_RADIUS, 0, Math.PI*2, true);
+    context.fill();
+    context.stroke();
 
-   context.stroke();
-   context.restore();
+    context.stroke();
+    context.restore();
 },
 
 paintFarCloud = function (context, x, y) {
-   context.save();
-   scrollBackground();
-   context.lineWidth=0.5;
-   context.strokeStyle='rgba(100, 140, 230, 0, 0.8)';
-   context.fillStyle='rgba(255,255,255,0.4)';
-   context.beginPath();
+    context.save();
+    scrollBackground();
+    context.lineWidth=0.5;
+    context.strokeStyle='rgba(100, 140, 230, 0, 0.8)';
+    context.fillStyle='rgba(255,255,255,0.4)';
+    context.beginPath();
 
-   context.moveTo(x+102, y+91);
-   context.quadraticCurveTo(x+180, y+110, x+250, y+90);
-   context.quadraticCurveTo(x+312, y+87, x+279, y+60);
-   context.quadraticCurveTo(x+321, y+20, x+265, y+20);
-   context.quadraticCurveTo(x+219, y+4, x+171, y+23);
-   context.quadraticCurveTo(x+137, y+5, x+104, y+18);
-   context.quadraticCurveTo(x+57, y+23, x+79, y+48);
-   context.quadraticCurveTo(x+57, y+74, x+104, y+92);
-   context.closePath();
-   context.stroke();
-   context.fill();
-   context.restore();
+    context.moveTo(x+102, y+91);
+    context.quadraticCurveTo(x+180, y+110, x+250, y+90);
+    context.quadraticCurveTo(x+312, y+87, x+279, y+60);
+    context.quadraticCurveTo(x+321, y+20, x+265, y+20);
+    context.quadraticCurveTo(x+219, y+4, x+171, y+23);
+    context.quadraticCurveTo(x+137, y+5, x+104, y+18);
+    context.quadraticCurveTo(x+57, y+23, x+79, y+48);
+    context.quadraticCurveTo(x+57, y+74, x+104, y+92);
+    context.closePath();
+    context.stroke();
+    context.fill();
+    context.restore();
 },
 
 paintNearCloud = function (context, x, y) {
-   context.save();
-   scrollBackground();
-   scrollBackground();
-   context.lineWidth=0.5;
-   context.strokeStyle='rgba(100, 140, 230, 0, 0.8)';
-   context.fillStyle='rgba(255,255,255,0.4)';
-   context.beginPath();
+    context.save();
+    scrollBackground();
+    scrollBackground();
+    context.lineWidth=0.5;
+    context.strokeStyle='rgba(100, 140, 230, 0, 0.8)';
+    context.fillStyle='rgba(255,255,255,0.4)';
+    context.beginPath();
 
-   context.fillStyle='rgba(255,255,255,0.7)';
+    context.fillStyle='rgba(255,255,255,0.7)';
 
-   context.moveTo(x+364, y+37);
-   context.quadraticCurveTo(x+426, y+28, x+418, y+72);
-   context.quadraticCurveTo(x+450, y+123, x+388, y+114);
-   context.quadraticCurveTo(x+357, y+144, x+303,y+ 115);
-   context.quadraticCurveTo(x+251, y+118, x+278, y+83);
-   context.quadraticCurveTo(x+254, y+46, x+320, y+46);
-   context.quadraticCurveTo(x+326, y+12, x+362, y+37);
-   context.closePath();
-   context.stroke();
-   context.fill();
-   context.restore();
+    context.moveTo(x+364, y+37);
+    context.quadraticCurveTo(x+426, y+28, x+418, y+72);
+    context.quadraticCurveTo(x+450, y+123, x+388, y+114);
+    context.quadraticCurveTo(x+357, y+144, x+303,y+ 115);
+    context.quadraticCurveTo(x+251, y+118, x+278, y+83);
+    context.quadraticCurveTo(x+254, y+46, x+320, y+46);
+    context.quadraticCurveTo(x+326, y+12, x+362, y+37);
+    context.closePath();
+    context.stroke();
+    context.fill();
+    context.restore();
 },
 
 paintBackground = function (context, x, y) {
     context.save();
-    var image = new Image();
-    //image.src = 'https://raw.githubusercontent.com/90arther/graduation-design/feature-gravity/resource/bg1.jpg';
-    image.src = '/resource/leaf.png';
-    context.drawImage(image, x, y)
+    if (game.getImage('/resource/bg1.jpg')) {
+        context.drawImage(game.getImage('/resource/bg1.jpg'), x, y)
+    }
     context.restore();
 },
 
 paintBall = function (context){
 
     var x = 0,
-        y = 0,
-        g = gravity.getGravity();
+         y = 0,
+         g = gravity.getGravity();
 
     //update speed
     ball.xSpeed = ball.xSpeed + g.xGravity / game.fps;
@@ -176,10 +175,10 @@ paintBall = function (context){
     y = ball.y + (ball.ySpeed / game.fps) * 100;
 
     if( y <= (context.canvas.height - ball.d) && y >= ball.d){
-        ball.y = y;
+         ball.y = y;
     }
     if( x <= (context.canvas.width -ball.d)&& x >= ball.d){
-        ball.x = x;
+         ball.x = x;
     }
 
     context.save();
@@ -194,70 +193,69 @@ paintBall = function (context){
     context.fill();
     context.stroke();
 
-    context.stroke();
     context.restore();
 
 },
 // Game over..................................................
 
 over = function () {
-   var highScore;
-   highScores = game.getHighScores();
+    var highScore;
+    highScores = game.getHighScores();
 
-   if (highScores.length == 0 || score > highScores[0].score) {
-      showHighScores();
-   }
-   else {
-     gameOverToast.style.display = 'inline';
-   }
+    if (highScores.length == 0 || score > highScores[0].score) {
+        showHighScores();
+    }
+    else {
+        gameOverToast.style.display = 'inline';
+    }
 
-   gameOver = true;
-   lastScore = score;
-   score = 0;
+    gameOver = true;
+    lastScore = score;
+    score = 0;
 };
 
 
 // Pause and Auto-pause.......................................
 
 togglePaused = function () {
-   game.togglePaused();
-   pausedToast.style.display = game.paused ? 'inline' : 'none';
+    game.togglePaused();
+    pausedToast.style.display = game.paused ? 'inline' : 'none';
 };
 
 pausedToast.onclick = function (e) {
-   pausedToast.style.display = 'none';
-   togglePaused();
+    pausedToast.style.display = 'none';
+    togglePaused();
 };
 
 window.onblur = function windowOnBlur() {
-   if (!loading && !gameOver && !game.paused) {
-      togglePaused();
-      pausedToast.style.display = game.paused ? 'inline' : 'none';
-   }
+    if (!loading && !gameOver && !game.paused) {
+        togglePaused();
+        pausedToast.style.display = game.paused ? 'inline' : 'none';
+    }
 };
 
 window.onfocus = function windowOnFocus() {
-   if (game.paused) {
-      togglePaused();
-      pausedToast.style.display = game.paused ? 'inline' : 'none';
-   }
+    if (game.paused) {
+        togglePaused();
+        pausedToast.style.display = game.paused ? 'inline' : 'none';
+    }
 };
 
 
 // New game ..................................................
 
 newGameButton.onclick = function (e) {
-   gameOverToast.style.display = 'none';
-   loseLifeToast.style.display = 'inline';
-   startNewGame();
+    gameOverToast.style.display = 'none';
+    loseLifeToast.style.display = 'inline';
+    startNewGame();
 };
 
 function startNewGame() {
-   highScoreParagraph.style.display = 'none';
-   gameOver = false;
-   livesLeft = 3;
-   score = 0;
-   loseLifeButton.focus();
+    highScoreParagraph.style.display = 'none';
+    gameOver = false;
+    livesLeft = 3;
+    score = 0;
+    loseLifeButton.focus();
 };
 
 // High Scores................................................
@@ -266,11 +264,11 @@ function startNewGame() {
 // player bests the high score.
 
 showHighScores = function () {
-   highScoreParagraph.style.display = 'inline';
-   highScoreParagraph.innerHTML = score;
-   highScoreToast.style.display = 'inline';
-   updateHighScoreList();
-   nameInput.focus();
+    highScoreParagraph.style.display = 'inline';
+    highScoreParagraph.innerHTML = score;
+    highScoreToast.style.display = 'inline';
+    updateHighScoreList();
+    nameInput.focus();
 };
 
 // The game shows the list of high scores in
@@ -279,44 +277,44 @@ showHighScores = function () {
 // current high scores.
 
 updateHighScoreList = function () {
-   var el,
-       highScores = game.getHighScores(),
-       length = highScores.length,
-       highScore,
-       listParent = highScoreList.parentNode;
+    var el,
+         highScores = game.getHighScores(),
+         length = highScores.length,
+         highScore,
+         listParent = highScoreList.parentNode;
 
-   listParent.removeChild(highScoreList);
-   highScoreList = document.createElement('ol');
-   highScoreList.id = 'highScoreList'; // So CSS takes effect
-   listParent.appendChild(highScoreList);
+    listParent.removeChild(highScoreList);
+    highScoreList = document.createElement('ol');
+    highScoreList.id = 'highScoreList'; // So CSS takes effect
+    listParent.appendChild(highScoreList);
 
-   if (length > 0) {
-      previousHighScoresTitle.style.display = 'block';
+    if (length > 0) {
+        previousHighScoresTitle.style.display = 'block';
 
-      length = length > 10 ? 10 : length;
+        length = length > 10 ? 10 : length;
 
-      for (var i=0; i < length; ++i) {
+        for (var i=0; i < length; ++i) {
 
-         highScore = highScores[i];
-         el = document.createElement('li');
-         el.innerHTML = highScore.score +
-                                    ' by ' + highScore.name;
-         highScoreList.appendChild(el);
-      }
-   }
-   else {
-      previousHighScoresTitle.style.display = 'none';
-   }
+            highScore = highScores[i];
+            el = document.createElement('li');
+            el.innerHTML = highScore.score +
+                                                ' by ' + highScore.name;
+            highScoreList.appendChild(el);
+        }
+    }
+    else {
+        previousHighScoresTitle.style.display = 'none';
+    }
 }
 
 // The browser invokes this method when the user clicks on the
 // Add My Score button.
 
 addMyScoreButton.onclick = function (e) {
-   game.setHighScore({ name: nameInput.value, score: lastScore });
-   updateHighScoreList();
-   addMyScoreButton.disabled = 'true';
-   nameInput.value = '';
+    game.setHighScore({ name: nameInput.value, score: lastScore });
+    updateHighScoreList();
+    addMyScoreButton.disabled = 'true';
+    nameInput.value = '';
 };
 
 
@@ -324,115 +322,115 @@ addMyScoreButton.onclick = function (e) {
 // new game button.
 
 newGameFromHighScoresButton.onclick = function (e) {
-   loseLifeToast.style.display = 'inline';
-   highScoreToast.style.display = 'none';
-   startNewGame();
+    loseLifeToast.style.display = 'inline';
+    highScoreToast.style.display = 'none';
+    startNewGame();
 };
 
 // The Add My Score button is only enabled when there
 // is something in the nameInput field.
 
 nameInput.onkeyup = function (e) {
-    if (nameInput.value.length > 0) {
-        addMyScoreButton.disabled = false;
-    }
-    else {
-        addMyScoreButton.disabled = true;
-    }
+     if (nameInput.value.length > 0) {
+          addMyScoreButton.disabled = false;
+     }
+     else {
+          addMyScoreButton.disabled = true;
+     }
 };
 
 // Score Display..............................................
 
 updateScore = function () {
-    if ( !loading && game.lastScoreUpdate !== undefined) {
-        if (game.gameTime - game.lastScoreUpdate > 1000) {
-            scoreToast.style.display = 'inline';
-            score += 10;
-            scoreToast.innerHTML = score.toFixed(0);
-            game.lastScoreUpdate = game.gameTime;
-        }
-    }else {
-        game.lastScoreUpdate = game.gameTime;
-    }
+     if ( !loading && game.lastScoreUpdate !== undefined) {
+          if (game.gameTime - game.lastScoreUpdate > 1000) {
+                scoreToast.style.display = 'inline';
+                score += 10;
+                scoreToast.innerHTML = score.toFixed(0);
+                game.lastScoreUpdate = game.gameTime;
+          }
+     }else {
+          game.lastScoreUpdate = game.gameTime;
+     }
 };
 
 // Lives Display..............................................
 
 updateLivesDisplay = function () {
-   var x, y, RADIUS = 10;
+    var x, y, RADIUS = 10;
 
-   livesContext.clearRect(0,0,livesCanvas.width,livesCanvas.height);
+    livesContext.clearRect(0,0,livesCanvas.width,livesCanvas.height);
 
-   for (var i=0; i < livesLeft; ++i) {
-      x = 20 + i*25;
-      y = 20;
+    for (var i=0; i < livesLeft; ++i) {
+        x = 20 + i*25;
+        y = 20;
 
-      livesContext.beginPath();
-      livesContext.arc(x, y, RADIUS, 0, Math.PI*2, false);
-      livesContext.fill();
-      livesContext.strokeText(parseInt(i+1), x-RADIUS/3, y+RADIUS/3);
-      livesContext.stroke();
-   }
+        livesContext.beginPath();
+        livesContext.arc(x, y, RADIUS, 0, Math.PI*2, false);
+        livesContext.fill();
+        livesContext.strokeText(parseInt(i+1), x-RADIUS/3, y+RADIUS/3);
+        livesContext.stroke();
+    }
 };
 
 // Game Paint Methods.........................................
 
 game.paintOverSprites = function () {
-   paintNearCloud(game.context, 120, 20);
-   paintNearCloud(game.context, game.context.canvas.width+120, 20);
+    paintNearCloud(game.context, 120, 20);
+    paintNearCloud(game.context, game.context.canvas.width+120, 20);
 }
 
 game.paintUnderSprites = function () { // Draw things other than sprites
-   if (!gameOver && livesLeft === 0) {
-         over();
-   }
-   else {
-      paintSun(game.context);
-      //paintFarCloud(game.context, 20, 20);
-      //paintFarCloud(game.context, game.context.canvas.width+20, 20);
-      paintBackground(game.context, 0, 0);
-      paintBall(game.context, 0, 0);
+    if (!gameOver && livesLeft === 0) {
+            over();
+    }
+    else {
+        paintSun(game.context);
+        //paintFarCloud(game.context, 20, 20);
+        //paintFarCloud(game.context, game.context.canvas.width+20, 20);
+        paintBackground(game.context, 0, 0);
+        paintBall(game.context, 0, 0);
 
-      if (!gameOver) {
-         updateScore();
-      }
-      updateLivesDisplay();
-   }
+        if (!gameOver) {
+            updateScore();
+        }
+        updateLivesDisplay();
+    }
 };
 
 // Key Listeners..............................................
 
 game.addKeyListener(
-   {
-      key: 'p',
-      listener: function () {
-         game.togglePaused();
-      }
-   }
+    {
+        key: 'p',
+        listener: function () {
+            game.togglePaused();
+        }
+    }
 );
 
 game.addKeyListener(
-   {
-      key: 'right arrow',
-      listener: function () {
-         var now = +new Date();
-         if (now - lastKeyListenerTime > 200) { // throttle
-            lastKeyListenerTime = now;
-         }
-      }
-   }
+    {
+        key: 'right arrow',
+        listener: function () {
+            var now = +new Date();
+            if (now - lastKeyListenerTime > 200) { // throttle
+                lastKeyListenerTime = now;
+            }
+        }
+    }
 );
 
 game.addKeyListener(
-   {
-      key: 'left arrow',
-      listener: function () {
-         var now = +new Date();
-         if (now - lastKeyListenerTime > 200) { // throttle
-            lastKeyListenerTime = now;
-         }
-      }
-   }
+    {
+        key: 'left arrow',
+        listener: function () {
+            var now = +new Date();
+            if (now - lastKeyListenerTime > 200) { // throttle
+                lastKeyListenerTime = now;
+            }
+        }
+    }
 );
 
 // Initialization.............................................
@@ -443,18 +441,18 @@ livesContext.fillStyle = 'yellow';
 // End game button............................................
 
 loseLifeButton.onclick = function (e) {
-   livesLeft--;
-   game.playSound('whoosh');
+    livesLeft--;
+    game.playSound('whoosh');
 
-   if (livesLeft === 0) {
-      loseLifeToast.style.display = 'none';
-   }
+    if (livesLeft === 0) {
+        loseLifeToast.style.display = 'none';
+    }
 };
 
 clearHighScoresCheckbox.onclick = function (e) {
-   if (clearHighScoresCheckbox.checked) {
-      game.clearHighScores();
-   }
+    if (clearHighScoresCheckbox.checked) {
+        game.clearHighScores();
+    }
 };
 
 // Load game..................................................
@@ -462,57 +460,58 @@ clearHighScoresCheckbox.onclick = function (e) {
 loading = true;
 
 loadButton.onclick = function (e) {
-   var interval,
-       loadingPercentComplete = 0;
+    var interval,
+         loadingPercentComplete = 0;
 
-   e.preventDefault();
+    e.preventDefault();
 
-   loadButton.style.display = 'none';
+    loadButton.style.display = 'none';
 
-   loadingMessage.style.display = 'block';
-   progressDiv.style.display = 'block';
+    loadingMessage.style.display = 'block';
+    progressDiv.style.display = 'block';
 
-   progressDiv.appendChild(progressbar.domElement);
+    progressDiv.appendChild(progressbar.domElement);
 
-   game.queueImage('images/image1.png');
-   game.queueImage('images/image2.png');
-   game.queueImage('images/image3.png');
-   game.queueImage('images/image4.png');
-   game.queueImage('images/image5.png');
+    game.queueImage('/images/image1.png');
+    game.queueImage('/images/image2.png');
+    game.queueImage('/images/image3.png');
+    game.queueImage('/images/image4.png');
+    game.queueImage('/images/image5.png');
+    game.queueImage('/resource/bg1.jpg');
 
-   interval = setInterval( function (e) {
-      loadingPercentComplete = game.loadImages();
+    interval = setInterval( function (e) {
+        loadingPercentComplete = game.loadImages();
 
-      if (loadingPercentComplete === 100) {
-         clearInterval(interval);
-
-         setTimeout( function (e) {
-            loadingMessage.style.display = 'none';
-            progressDiv.style.display = 'none';
+        if (loadingPercentComplete === 100) {
+            clearInterval(interval);
 
             setTimeout( function (e) {
-               loadingToastBlurb.style.display = 'none';
-               loadingToastTitle.style.display = 'none';
+                loadingMessage.style.display = 'none';
+                progressDiv.style.display = 'none';
 
-               setTimeout( function (e) {
-                  loadingToast.style.display = 'none';
-                  loseLifeToast.style.display = 'block';
-                  game.playSound('pop');
+                setTimeout( function (e) {
+                    loadingToastBlurb.style.display = 'none';
+                    loadingToastTitle.style.display = 'none';
 
-                  setTimeout( function (e) {
-                     loading = false;
-                     score = 10;
-                     scoreToast.innerText = '10'; // won't get set till later, otherwise
-                     scoreToast.style.display = 'inline';
-                     game.playSound('pop');
-                     loseLifeButton.focus();
-                  }, 1000);
-               }, 500);
+                    setTimeout( function (e) {
+                        loadingToast.style.display = 'none';
+                        loseLifeToast.style.display = 'block';
+                        game.playSound('pop');
+
+                        setTimeout( function (e) {
+                            loading = false;
+                            score = 10;
+                            scoreToast.innerText = '10'; // won't get set till later, otherwise
+                            scoreToast.style.display = 'inline';
+                            game.playSound('pop');
+                            loseLifeButton.focus();
+                        }, 1000);
+                    }, 500);
+                }, 500);
             }, 500);
-         }, 500);
-      }
-      progressbar.draw(loadingPercentComplete);
-   }, 16);
+        }
+        progressbar.draw(loadingPercentComplete);
+    }, 16);
 };
 
 // Start game.................................................
