@@ -4,16 +4,17 @@ body {
 }
 .menu, .setting, .pause, .score{
     position: absolute;
-    left: 55px;
+    left: 0;
     top: 0;
-    width: 210px;
-    margin: 125px auto;
+    width:100%;
+    height: 1136px;
+    padding-top: 40px;
 }
 .btn-start, .btn-setting, .btn-fork, .btn-continue{
     display: block;
     width: 210px;
     height: 70px;
-    margin: 10px 0;
+    margin: 10px auto;
     font-size: 14px;
     line-height: 70px;
     text-align: center;
@@ -23,8 +24,8 @@ body {
 }
 .btn-pause{
     position: absolute;
-    left: -50px;
-    top: -120px;
+    left: 10px;
+    top: 10px;
     width: 35px;
     height: 35px;
     line-height: 35px;
@@ -33,56 +34,6 @@ body {
     color: #000;
     background: rgba(255, 255, 255, 0.6);
     box-shadow: 1px 1px 1px #000;
-}
-#loadingToast {
-    padding: 20px;
-    position: absolute;
-    left: 40px;
-    top: 15px;
-    width: 200px;
-    height: 400px;
-    display: block;
-}
-#loadingToast .title {
-    padding-left: 57px;
-    font: 16px Arial;
-}
-#loadingToast p {
-    margin-left: 10px;
-    margin-right: 10px;
-    color: black;
-}
-#highScoreParagraph {
-    position: absolute;
-    left: 50px;
-    top: -50px;
-    color: red;
-    font: 8em fantasy;
-    margin-left: 70px;
-    margin-bottom: 50px;
-}
-#highScoreToast {
-    position: absolute;
-    left: 0px;
-    top: 200px;
-    color: cornflowerblue;
-    margin-left: 40px;
-    margin-top: 20px;
-    font: 18px fantasy;
-}
-#livesCanvas {
-    background: rgba(255,255,255,0.3);
-    position: absolute;
-    left: 220px;
-    top: 25px;
-    border: thin solid rbga(100,140,230,0.8);
-    -webkit-box-shadow: rgba(100,140,230,0.5) 2px 2px 6px;
-    -moz-box-shadow: rgba(100,140,230,0.5) 2px 2px 6px;
-    box-shadow: rgba(100,140,230,0.5) 2px 2px 6px;
-    -o-box-shadow: rgba(100,140,230,0.5) 2px 2px 6px;
-}
-#gameCanvas {
-    background: rgba(120,168,249,0.7);
 }
 
 .floatingControls {
@@ -117,7 +68,6 @@ body {
    font-size: 1.5em;
    color: blue;
 }
-      
 #instructions {
    margin-left: 60px;
    margin-top: 50px;
@@ -132,7 +82,6 @@ body {
    color: rgba(0, 0, 255, 0.8);
    background: rgba(255, 255, 255, 0.8);
 }
-
 #instructionsOkayButtonDiv {
    left: 0px;
    width: 100%;

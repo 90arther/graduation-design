@@ -1,5 +1,5 @@
 /*
- * *=GravityEngine
+ * GravityEngine
  */
 (function(window,undefined) {
 

@@ -1,3 +1,36 @@
+function getPolygonPointClosestToCircle(polygon, circle) {
+    var min = 10000,
+         length,
+         testPoint,
+         closestPoint;
+
+    for (var i=0; i < polygon.points.length; ++i) {
+        testPoint = polygon.points[i];
+        length = Math.sqrt(Math.pow(testPoint.x - circle.x, 2),
+                                 Math.pow(testPoint.y - circle.y, 2));
+        if (length < min) {
+            min = length;
+            closestPoint = testPoint;
+        }
+    }
+
+    return closestPoint;
+};
+
+function polygonCollidesWithCircle (polygon, circle) {
+    var min=10000, v1, v2,
+         edge, perpendicular,
+         axes = polygon.getAxes(),
+         closestPoint = getPolygonPointClosestToCircle(polygon, circle);
+
+    v1 = new Vector(new Point(circle.x, circle.y));
+    v2 = new Vector(new Point(closestPoint.x, closestPoint.y));
+
+    axes.push(v1.subtract(v2).normalize());
+
+    return !polygon.separationOnAxes(axes, circle);
+};
+
 var Point = function (x, y) {
     this.x = x;
     this.y = y;
@@ -230,12 +263,12 @@ Circle.prototype = new Shape();
 
 Circle.prototype.collidesWith = function (shape) {
     var point, length, min=10000, v1, v2,
-         edge, perpendicular, normal,
-         axes = shape.getAxes(), distance;
+        edge, perpendicular, normal,
+        axes = shape.getAxes(), distance;
 
     if (axes === undefined) {  // circle
         distance = Math.sqrt(Math.pow(shape.x - this.x, 2) +
-                                    Math.pow(shape.y - this.y, 2));
+                             Math.pow(shape.y - this.y, 2));
 
         return distance < Math.abs(this.radius + shape.radius);
     }
@@ -250,15 +283,15 @@ Circle.prototype.getAxes = function () {
 
 Circle.prototype.project = function (axis) {
     var scalars = [],
-         point = new Point(this.x, this.y);
-         dotProduct = new Vector(point).dotProduct(axis);
+        point = new Point(this.x, this.y);
+        dotProduct = new Vector(point).dotProduct(axis);
 
     scalars.push(dotProduct);
     scalars.push(dotProduct + this.radius);
     scalars.push(dotProduct - this.radius);
 
     return new Projection(Math.min.apply(Math, scalars),
-                                 Math.max.apply(Math, scalars));
+                          Math.max.apply(Math, scalars));
 };
 
 Circle.prototype.move = function (dx, dy) {

@@ -1,14 +1,11 @@
-var game = new Game('ungame', 'gameCanvas');
-var gravity = new GravityEngine();
-var g = gravity.getGravity();
-var ball = {
-    x : 20,  //水平坐标
-    y : 20,  //垂直坐标
-    d : 15,  //直径
-    xSpeed : 0,        //x速度
-    ySpeed : 0,        //y速度
-    a : 0    //加速度
-}
+var game = new Game('gravity', 'canvas'),
+    gravity = new GravityEngine(),
+    ball = new Circle(150, 75, 15);
+
+    ball.physics = {
+        xSpeed : 0,
+        ySpeed : 0
+    };
 
 // Loading....................................................
 
@@ -17,32 +14,9 @@ loadingToast = document.getElementById('loadingToast'),
 loadingMessage = document.getElementById('loadingMessage'),
 loadingToastTitle = document.getElementById('loadingToastTitle'),
 loadingToastBlurb = document.getElementById('loadingToastBlurb'),
-loadButton = document.getElementById('loadButton'),
+loadButton = document.getElementById('btnStart'),
 progressDiv = document.getElementById('progressDiv'),
 progressbar = new COREHTML5.Progressbar(150, 25, 'rgba(0,0,0,0.5)', 100, 130, 250),
-
-// Score......................................................
-
-scoreToast = document.getElementById('scoreToast'),
-scoreReadout = document.getElementById('score'),
-score = 0,
-lastScore = 0,
-lastScoreUpdate = undefined,
-
-// High Score.................................................
-
-HIGH_SCORES_DISPLAYED = 10,
-
-highScoreToast = document.getElementById('highScoreToast'),
-highScoreParagraph = document.getElementById('highScoreParagraph'),
-highScoreList = document.getElementById('highScoreList'),
-previousHighScoresTitle = document.getElementById('previousHighScoresTitle'),
-nameInput = document.getElementById('nameInput'),
-addMyScoreButton = document.getElementById('addMyScoreButton'),
-newGameButton = document.getElementById('newGameButton'),
-newGameFromHighScoresButton =
-        document.getElementById('newGameFromHighScoresButton'),
-clearHighScoresCheckbox = document.getElementById('clearHighScoresCheckbox'),
 
 // Lives......................................................
 
@@ -81,74 +55,73 @@ translateDelta = 0.025,
 translateOffset = 0,
 
 scrollBackground = function () {
-    translateOffset =
-        (translateOffset + translateDelta) % game.context.canvas.width;
-    game.context.translate(-translateOffset,0);
+   translateOffset =
+      (translateOffset + translateDelta) % game.context.canvas.width;
+   game.context.translate(-translateOffset,0);
 },
 
 // Paint Methods..............................................
-
 paintSun = function (context) {
-    context.save();
+   context.save();
 
-    context.strokeStyle = 'orange';
-    context.fillStyle = 'yellow';
-    context.strokeStyle = 'orange';
-    context.lineWidth = 1;
+   context.strokeStyle = 'orange';
+   context.fillStyle = 'yellow';
+   context.strokeStyle = 'orange';
+   context.lineWidth = 1;
 
-    context.beginPath();
-    context.arc(SUN_LEFT, SUN_TOP, SUN_RADIUS, 0, Math.PI*2, true);
-    context.fill();
-    context.stroke();
+   context.beginPath();
+   context.arc(SUN_LEFT, SUN_TOP, SUN_RADIUS, 0, Math.PI*2, true);
+   context.fill();
+   context.stroke();
 
-    context.stroke();
-    context.restore();
+   context.stroke();
+   context.restore();
 },
 
 paintFarCloud = function (context, x, y) {
-    context.save();
-    scrollBackground();
-    context.lineWidth=0.5;
-    context.strokeStyle='rgba(100, 140, 230, 0, 0.8)';
-    context.fillStyle='rgba(255,255,255,0.4)';
-    context.beginPath();
+   context.save();
+   scrollBackground();
+   context.lineWidth=0.5;
+   context.strokeStyle='rgba(100, 140, 230, 0, 0.8)';
+   context.fillStyle='rgba(255,255,255,0.4)';
+   context.beginPath();
 
-    context.moveTo(x+102, y+91);
-    context.quadraticCurveTo(x+180, y+110, x+250, y+90);
-    context.quadraticCurveTo(x+312, y+87, x+279, y+60);
-    context.quadraticCurveTo(x+321, y+20, x+265, y+20);
-    context.quadraticCurveTo(x+219, y+4, x+171, y+23);
-    context.quadraticCurveTo(x+137, y+5, x+104, y+18);
-    context.quadraticCurveTo(x+57, y+23, x+79, y+48);
-    context.quadraticCurveTo(x+57, y+74, x+104, y+92);
-    context.closePath();
-    context.stroke();
-    context.fill();
-    context.restore();
+   context.moveTo(x+102, y+91);
+   context.quadraticCurveTo(x+180, y+110, x+250, y+90);
+   context.quadraticCurveTo(x+312, y+87, x+279, y+60);
+   context.quadraticCurveTo(x+321, y+20, x+265, y+20);
+   context.quadraticCurveTo(x+219, y+4, x+171, y+23);
+   context.quadraticCurveTo(x+137, y+5, x+104, y+18);
+   context.quadraticCurveTo(x+57, y+23, x+79, y+48);
+   context.quadraticCurveTo(x+57, y+74, x+104, y+92);
+   context.closePath();
+   context.stroke();
+   context.fill();
+   context.restore();
 },
 
 paintNearCloud = function (context, x, y) {
-    context.save();
-    scrollBackground();
-    scrollBackground();
-    context.lineWidth=0.5;
-    context.strokeStyle='rgba(100, 140, 230, 0, 0.8)';
-    context.fillStyle='rgba(255,255,255,0.4)';
-    context.beginPath();
+   context.save();
+   scrollBackground();
+   scrollBackground();
+   context.lineWidth=0.5;
+   context.strokeStyle='rgba(100, 140, 230, 0, 0.8)';
+   context.fillStyle='rgba(255,255,255,0.4)';
+   context.beginPath();
 
-    context.fillStyle='rgba(255,255,255,0.7)';
+   context.fillStyle='rgba(255,255,255,0.7)';
 
-    context.moveTo(x+364, y+37);
-    context.quadraticCurveTo(x+426, y+28, x+418, y+72);
-    context.quadraticCurveTo(x+450, y+123, x+388, y+114);
-    context.quadraticCurveTo(x+357, y+144, x+303,y+ 115);
-    context.quadraticCurveTo(x+251, y+118, x+278, y+83);
-    context.quadraticCurveTo(x+254, y+46, x+320, y+46);
-    context.quadraticCurveTo(x+326, y+12, x+362, y+37);
-    context.closePath();
-    context.stroke();
-    context.fill();
-    context.restore();
+   context.moveTo(x+364, y+37);
+   context.quadraticCurveTo(x+426, y+28, x+418, y+72);
+   context.quadraticCurveTo(x+450, y+123, x+388, y+114);
+   context.quadraticCurveTo(x+357, y+144, x+303,y+ 115);
+   context.quadraticCurveTo(x+251, y+118, x+278, y+83);
+   context.quadraticCurveTo(x+254, y+46, x+320, y+46);
+   context.quadraticCurveTo(x+326, y+12, x+362, y+37);
+   context.closePath();
+   context.stroke();
+   context.fill();
+   context.restore();
 },
 
 paintBackground = function (context, x, y) {
@@ -162,23 +135,25 @@ paintBackground = function (context, x, y) {
 paintBall = function (context){
 
     var x = 0,
-         y = 0,
-         g = gravity.getGravity();
+        y = 0,
+        g = gravity.getGravity();
 
     //update speed
     ball.xSpeed = ball.xSpeed + g.xGravity / game.fps;
-    ball.xSpeed = g.xGravity;
     ball.ySpeed = ball.ySpeed + g.yGravity / game.fps;
-    ball.ySpeed = g.yGravity;
 
     x = ball.x + (ball.xSpeed / game.fps) * 100;
     y = ball.y + (ball.ySpeed / game.fps) * 100;
 
     if( y <= (context.canvas.height - ball.d) && y >= ball.d){
-         ball.y = y;
+        ball.y = y;
+    } else {
+        ball.ySpeed = -ball.ySpeed / 2;
     }
     if( x <= (context.canvas.width -ball.d)&& x >= ball.d){
-         ball.x = x;
+        ball.x = x;
+    } else {
+        ball.xSpeed = -ball.xSpeed / 2;
     }
 
     context.save();
@@ -344,9 +319,9 @@ nameInput.onkeyup = function (e) {
 updateScore = function () {
      if ( !loading && game.lastScoreUpdate !== undefined) {
           if (game.gameTime - game.lastScoreUpdate > 1000) {
-                scoreToast.style.display = 'inline';
+                //scoreToast.style.display = 'inline';
                 score += 10;
-                scoreToast.innerHTML = score.toFixed(0);
+                //scoreToast.innerHTML = score.toFixed(0);
                 game.lastScoreUpdate = game.gameTime;
           }
      }else {
@@ -435,9 +410,6 @@ game.addKeyListener(
 
 // Initialization.............................................
 
-livesContext.strokeStyle = 'slateblue';
-livesContext.fillStyle = 'yellow';
-
 // End game button............................................
 
 loseLifeButton.onclick = function (e) {
@@ -467,7 +439,7 @@ loadButton.onclick = function (e) {
 
     loadButton.style.display = 'none';
 
-    loadingMessage.style.display = 'block';
+    //loadingMessage.style.display = 'block';
     progressDiv.style.display = 'block';
 
     progressDiv.appendChild(progressbar.domElement);
@@ -486,23 +458,23 @@ loadButton.onclick = function (e) {
             clearInterval(interval);
 
             setTimeout( function (e) {
-                loadingMessage.style.display = 'none';
+                //loadingMessage.style.display = 'none';
                 progressDiv.style.display = 'none';
 
                 setTimeout( function (e) {
-                    loadingToastBlurb.style.display = 'none';
-                    loadingToastTitle.style.display = 'none';
+                    //loadingToastBlurb.style.display = 'none';
+                    //loadingToastTitle.style.display = 'none';
 
                     setTimeout( function (e) {
-                        loadingToast.style.display = 'none';
+                        //loadingToast.style.display = 'none';
                         loseLifeToast.style.display = 'block';
                         game.playSound('pop');
 
                         setTimeout( function (e) {
                             loading = false;
                             score = 10;
-                            scoreToast.innerText = '10'; // won't get set till later, otherwise
-                            scoreToast.style.display = 'inline';
+                            //scoreToast.innerText = '10'; // won't get set till later, otherwise
+                            //scoreToast.style.display = 'inline';
                             game.playSound('pop');
                             loseLifeButton.focus();
                         }, 1000);

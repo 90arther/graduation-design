@@ -1,57 +1,191 @@
-var game = new Game('gravity', 'gameCanvas');
-var gravity = new GravityEngine();
-var g = gravity.getGravity();
+var game = new Game('gravity', 'canvas'),
+    gravity = new GravityEngine(),
+    shapes = [],
+    polygonPoints = [
+        [new Point(100, 0), new Point(100, 400),
+        new Point(150, 400), new Point(150, 0)]
+    ],
 
-var physics = {
-    t : 0,
-    GRAVITY: 9.81,
-    speed : 0,
-    x : 0,
-    y : 0
+    polygonStrokeStyles = ['blue'],
+    polygonFillStyles = ['rgba(255, 255, 0, 0.7)'],
+    ball = new Circle(30, 30, 10);
+
+    ball.physics = {
+        xSpeed : 0,
+        ySpeed : 0
+    };
+
+// Loading....................................................
+
+loading = false,  // not yet, see the end of this file
+menu = document.getElementById('menu'),
+loadButton = document.getElementById('btnStart'),
+progressDiv = document.getElementById('progressDiv'),
+progressbar = new COREHTML5.Progressbar(150, 25, 'rgba(0,0,0,0.5)', 100, 130, 250),
+
+// detectCollisions
+detectCollisions = function (){
+    shape = shapes[0];
+    if(ball.collidesWith(shape)){
+        ball.physics.xSpeed = -ball.physics.xSpeed;
+        ball.physics.ySpeed = -ball.physics.ySpeed;
+    }
 }
 
-game.startAnimate = function () {
-    var self = this;
+// calculate ball.............................................
+calculateBall = function (ball) {
+
+    var x = 0,
+        y = 0,
+        g = gravity.getGravity();
+
+    //update speed
+    ball.physics.xSpeed = ball.physics.xSpeed + g.xGravity / game.fps;
+    ball.physics.ySpeed = ball.physics.ySpeed + g.yGravity / game.fps;
+
+    x = ball.x + (ball.physics.xSpeed / game.fps) * 100;
+    y = ball.y + (ball.physics.ySpeed / game.fps) * 100;
+
+    if( y <= (game.context.canvas.height - ball.radius) && y >= ball.radius){
+        ball.y = y;
+    } else {
+        ball.physics.ySpeed = -ball.physics.ySpeed / 2;
+    }
+    if( x <= (game.context.canvas.width -ball.radius)&& x >= ball.radius){
+        ball.x = x;
+    } else {
+        ball.physics.xSpeed = -ball.physics.xSpeed / 2;
+    }
+
 };
 
-game.paintUnderSprites = function () {
+// Paint Methods..............................................
 
-    this.context.save();
-    var image = new Image();
-    image.src = 'https://raw.githubusercontent.com/90arther/graduation-design/feature-gravity/resource/bg1.jpg';
-    this.context.drawImage(image, 0, 0)
-    this.context.restore();
-
+paintBackground = function (context, x, y) {
+    context.save();
+    if (game.getImage('/resource/bg1.jpg')) {
+        context.drawImage(game.getImage('/resource/bg1.jpg'), x, y)
+    }
+    context.restore();
 };
+
+// Game over..................................................
+
+over = function () {
+    var highScore;
+    highScores = game.getHighScores();
+
+    if (highScores.length == 0 || score > highScores[0].score) {
+        showHighScores();
+    }
+    else {
+        gameOverToast.style.display = 'inline';
+    }
+
+    gameOver = true;
+    lastScore = score;
+    score = 0;
+};
+
+
+// Pause and Auto-pause.......................................
+
+togglePaused = function () {
+    game.togglePaused();
+    pausedToast.style.display = game.paused ? 'inline' : 'none';
+};
+
+// Game Paint Methods.........................................
+
 game.paintOverSprites = function () {
-    //var gravity = window.getGravity;
-    this.context.save();
-    if (physics.y > (this.context.canvas.height - 50)) {
-        physics.y = 0;
-        physics.t = 0;
-    }else{
-        physics.y = physics.y + g.yGravity/this.fps;
-        physics.t = physics.t + 0.1;
-    }
-    this.context.beginPath();
-    this.context.arc(20, physics.y,
-               5, 0, Math.PI*2, true);
-    this.context.stroke();
-    this.context.restore();
+}
 
-    this.context.save();
-    this.context.fillStyle = 'cornflowerblue';
-    if (this.debug === true) {
-        this.context.fillText(calculateFps().toFixed()  + 'fps', 280, 20);
-    }
-    //this.context.fillText('gamma='+this.gamma, 40, 60);
-    //this.context.fillText('beta='+this.beta, 40, 80);
-    //this.context.fillText('alpha='+this.alpha, 40, 100);
-    this.context.restore();
-    //this.context.fillText('xGravity=' + this.gravityDate.xGravity, 40, 120);
-    //this.context.fillText('yGravity=' + this.gravityDate.yGravity, 40, 140);
-    //this.context.fillText('xGravity=' + physics.GRAVITY * Math.sin(game.gamma), 40, 120);
-    //this.context.fillText('yGravity=' + physics.GRAVITY * Math.sin(game.beta), 40, 140);
+game.paintUnderSprites = function () { // Draw things other than sprites
+    paintBackground(game.context, 0, 0);
+    calculateBall(ball);
+    detectCollisions();
+    shapes.forEach( function (shape) {
+        shape.stroke(game.context);
+        shape.fill(game.context);
+    });
 };
-game.endAnimate = function () {};
+
+// Initialization.............................................
+for (var i=0; i < polygonPoints.length; ++i) {
+    var polygon = new Polygon(),
+        points = polygonPoints[i];
+
+    polygon.strokeStyle = polygonStrokeStyles[i];
+    Polygon.fillStyle = polygonFillStyles[i];
+
+    points.forEach( function (point) {
+        polygon.addPoint(point.x, point.y);
+    });
+
+    shapes.push(polygon);
+}
+
+shapes.push(ball);
+// Load game..................................................
+
+loading = true;
+
+loadButton.onclick = function (e) {
+    var interval,
+         loadingPercentComplete = 0;
+
+    e.preventDefault();
+
+    loadButton.style.display = 'none';
+
+    //loadingMessage.style.display = 'block';
+    progressDiv.style.display = 'block';
+
+    progressDiv.appendChild(progressbar.domElement);
+
+    game.queueImage('/images/image1.png');
+    game.queueImage('/images/image2.png');
+    game.queueImage('/images/image3.png');
+    game.queueImage('/images/image4.png');
+    game.queueImage('/images/image5.png');
+    game.queueImage('/resource/bg1.jpg');
+
+    interval = setInterval( function (e) {
+        loadingPercentComplete = game.loadImages();
+
+        if (loadingPercentComplete === 100) {
+            clearInterval(interval);
+
+            setTimeout( function (e) {
+                //loadingMessage.style.display = 'none';
+                progressDiv.style.display = 'none';
+                menu.style.display = 'none';
+
+                setTimeout( function (e) {
+                    //loadingToastBlurb.style.display = 'none';
+                    //loadingToastTitle.style.display = 'none';
+
+                    setTimeout( function (e) {
+                        //loadingToast.style.display = 'none';
+                        //loseLifeToast.style.display = 'block';
+                        game.playSound('pop');
+
+                        setTimeout( function (e) {
+                            loading = false;
+                            score = 10;
+                            //scoreToast.innerText = '10'; // won't get set till later, otherwise
+                            //scoreToast.style.display = 'inline';
+                            game.playSound('pop');
+                            //loseLifeButton.focus();
+                        }, 1000);
+                    }, 500);
+                }, 500);
+            }, 500);
+        }
+        progressbar.draw(loadingPercentComplete);
+    }, 16);
+};
+
+// Start game.................................................
+
 game.start();
