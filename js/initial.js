@@ -3,17 +3,27 @@ var game = new Game('gravity', 'canvas'),
     shapes = [],
     polygonPoints = [
         [new Point(100, 0), new Point(100, 400),
-        new Point(150, 400), new Point(150, 0)]
+        new Point(120, 400), new Point(120, 0)],
+        [new Point(200, 200), new Point(200, 600),
+        new Point(220, 600), new Point(220, 200)]
     ],
 
-    polygonStrokeStyles = ['blue'],
-    polygonFillStyles = ['rgba(255, 255, 0, 0.7)'],
+    polygonStrokeStyles = ['yellow'],
+    polygonFillStyles = ['rgba(255, 255, 255, 0.7)'],
     ball = new Circle(30, 30, 10);
 
     ball.physics = {
         xSpeed : 0,
         ySpeed : 0
     };
+
+// Loading....................................................
+
+loading = false,  // not yet, see the end of this file
+menu = document.getElementById('menu'),
+btnStart = document.getElementById('btnStart'),
+progressDiv = document.getElementById('progressDiv'),
+progressbar = new COREHTML5.Progressbar(150, 25, 'rgba(0,0,0,0.5)', 100, 130, 250),
 
 // use for test...............................................
 
@@ -24,21 +34,25 @@ ok = function (){
     game.context.restore();
 };
 
-// Loading....................................................
+// game success
+gameSuccess = function () {
 
-loading = false,  // not yet, see the end of this file
-menu = document.getElementById('menu'),
-btnStart = document.getElementById('btnStart'),
-progressDiv = document.getElementById('progressDiv'),
-progressbar = new COREHTML5.Progressbar(150, 25, 'rgba(0,0,0,0.5)', 100, 130, 250),
+    //if (ball.x >= (game.context.canvas.width - ball.radius) && ball.y == ball.radius){
+    if (ball.x >= 300 && ball.y <= 15 ){
+        alert('you win!');
+        game.togglePaused();
+    }
+
+};
 
 // detectCollisions
 detectCollisions = function (){
-    shape = shapes[0];
-    if(ball.collidesWith(shape)){
-        ok();
-        ball.physics.xSpeed = -ball.physics.xSpeed;
-        ball.physics.ySpeed = -ball.physics.ySpeed;
+    for (var i = 0; i < (shapes.length - 1); ++i) {
+        shape = shapes[i];
+        if(ball.collidesWith(shape)){
+            ball.physics.xSpeed = -ball.physics.xSpeed;
+            game.playSound('pop');
+        }
     }
 };
 
@@ -79,6 +93,13 @@ paintBackground = function (context, x, y) {
     context.restore();
 };
 
+paintHole = function (context, x, y){
+    game.context.save();
+    game.context.fillStyle = 'rgba(0, 255, 0, 1)'
+    game.context.arc(310, ball.radius, 10, 0, Math.PI*2, false);
+    game.context.fill();
+    game.context.restore();
+}
 // Game over..................................................
 
 over = function () {
@@ -111,13 +132,17 @@ game.paintOverSprites = function () {
 }
 
 game.paintUnderSprites = function () { // Draw things other than sprites
-    paintBackground(game.context, 0, 0);
+    //paintBackground(game.context, 0, 0);
     calculateBall(ball);
     detectCollisions();
     shapes.forEach( function (shape) {
         shape.stroke(game.context);
         shape.fill(game.context);
     });
+    paintHole();
+
+    //if game success
+    gameSuccess();
 };
 
 // Initialization.............................................
@@ -194,9 +219,9 @@ btnStart.onclick = function (e) {
             }, 500);
         }
         progressbar.draw(loadingPercentComplete);
+        game.start();
     }, 16);
 };
 
 // Start game.................................................
 
-game.start();
