@@ -15,11 +15,20 @@ var game = new Game('gravity', 'canvas'),
         ySpeed : 0
     };
 
+// use for test...............................................
+
+ok = function (){
+    game.context.save();
+    game.context.fillStyle = 'rgba(0, 0, 0, 1)';
+    game.context.fillText('collision', 20, 40)
+    game.context.restore();
+};
+
 // Loading....................................................
 
 loading = false,  // not yet, see the end of this file
 menu = document.getElementById('menu'),
-loadButton = document.getElementById('btnStart'),
+btnStart = document.getElementById('btnStart'),
 progressDiv = document.getElementById('progressDiv'),
 progressbar = new COREHTML5.Progressbar(150, 25, 'rgba(0,0,0,0.5)', 100, 130, 250),
 
@@ -27,10 +36,11 @@ progressbar = new COREHTML5.Progressbar(150, 25, 'rgba(0,0,0,0.5)', 100, 130, 25
 detectCollisions = function (){
     shape = shapes[0];
     if(ball.collidesWith(shape)){
+        ok();
         ball.physics.xSpeed = -ball.physics.xSpeed;
         ball.physics.ySpeed = -ball.physics.ySpeed;
     }
-}
+};
 
 // calculate ball.............................................
 calculateBall = function (ball) {
@@ -130,13 +140,14 @@ shapes.push(ball);
 
 loading = true;
 
-loadButton.onclick = function (e) {
+btnStart.onclick = function (e) {
     var interval,
          loadingPercentComplete = 0;
 
     e.preventDefault();
 
-    loadButton.style.display = 'none';
+    btnStart.style.display = 'none';
+    btnFork.style.display = 'none';
 
     //loadingMessage.style.display = 'block';
     progressDiv.style.display = 'block';
