@@ -4,6 +4,7 @@ var game = new Game('gravity', 'canvas'),
     polygonPoints = [
         [new Point(100, 0), new Point(100, 400),
         new Point(120, 400), new Point(120, 0)],
+
         [new Point(200, 200), new Point(200, 600),
         new Point(220, 600), new Point(220, 200)]
     ],
@@ -27,10 +28,12 @@ progressbar = new COREHTML5.Progressbar(150, 25, 'rgba(0,0,0,0.5)', 100, 130, 25
 
 // use for test...............................................
 
-ok = function (){
+ok = function (text){
     game.context.save();
     game.context.fillStyle = 'rgba(0, 0, 0, 1)';
-    game.context.fillText('collision', 20, 40)
+    if (text) {
+        game.context.fillText(text, 20, 40)
+    }
     game.context.restore();
 };
 
@@ -50,6 +53,7 @@ detectCollisions = function (){
     for (var i = 0; i < (shapes.length - 1); ++i) {
         shape = shapes[i];
         if(ball.collidesWith(shape)){
+            ok('touch')
             ball.physics.xSpeed = -ball.physics.xSpeed;
             game.playSound('pop');
         }
@@ -87,9 +91,10 @@ calculateBall = function (ball) {
 
 paintBackground = function (context, x, y) {
     context.save();
-    if (game.getImage('/resource/bg1.jpg')) {
-        context.drawImage(game.getImage('/resource/bg1.jpg'), x, y)
+    if (game.getImage('/resource/bg2.jpg')) {
+        context.drawImage(game.getImage('/resource/bg2.jpg'), x, y)
     }
+    //context.fillRect(0, 0, context.canvas.width, context.canvas.height);
     context.restore();
 };
 
@@ -129,10 +134,6 @@ togglePaused = function () {
 // Game Paint Methods.........................................
 
 game.paintOverSprites = function () {
-}
-
-game.paintUnderSprites = function () { // Draw things other than sprites
-    //paintBackground(game.context, 0, 0);
     calculateBall(ball);
     detectCollisions();
     shapes.forEach( function (shape) {
@@ -143,6 +144,10 @@ game.paintUnderSprites = function () { // Draw things other than sprites
 
     //if game success
     gameSuccess();
+};
+
+game.paintUnderSprites = function () { // Draw things other than sprites
+    paintBackground(game.context, 0, 0);
 };
 
 // Initialization.............................................
@@ -180,11 +185,8 @@ btnStart.onclick = function (e) {
     progressDiv.appendChild(progressbar.domElement);
 
     game.queueImage('/images/image1.png');
-    game.queueImage('/images/image2.png');
-    game.queueImage('/images/image3.png');
-    game.queueImage('/images/image4.png');
-    game.queueImage('/images/image5.png');
     game.queueImage('/resource/bg1.jpg');
+    game.queueImage('/resource/bg2.jpg');
 
     interval = setInterval( function (e) {
         loadingPercentComplete = game.loadImages();

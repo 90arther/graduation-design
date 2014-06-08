@@ -1,7 +1,12 @@
 body {
     background: #ffdd00;
     margin: 0;
-    font-family: Cablir;
+    font-family: Calibri;
+}
+.canvas-wrap{
+    width: 320px;
+    height: 548px;
+    margin: 0 auto;
 }
 .menu, .setting, .pause, .score{
     position: absolute;
