@@ -91,8 +91,8 @@ calculateBall = function (ball) {
 
 paintBackground = function (context, x, y) {
     context.save();
-    if (game.getImage('/resource/bg2.jpg')) {
-        context.drawImage(game.getImage('/resource/bg2.jpg'), x, y)
+    if (game.getImage('/resource/bg.jpg')) {
+        context.drawImage(game.getImage('/resource/bg.jpg'), x, y)
     }
     //context.fillRect(0, 0, context.canvas.width, context.canvas.height);
     context.restore();
@@ -185,8 +185,7 @@ btnStart.onclick = function (e) {
     progressDiv.appendChild(progressbar.domElement);
 
     game.queueImage('/images/image1.png');
-    game.queueImage('/resource/bg1.jpg');
-    game.queueImage('/resource/bg2.jpg');
+    game.queueImage('/resource/bg.jpg');
 
     interval = setInterval( function (e) {
         loadingPercentComplete = game.loadImages();
