@@ -19,9 +19,9 @@ function getPolygonPointClosestToCircle(polygon, circle) {
 
 function polygonCollidesWithCircle (polygon, circle) {
     var min=10000, v1, v2,
-         edge, perpendicular,
-         axes = polygon.getAxes(),
-         closestPoint = getPolygonPointClosestToCircle(polygon, circle);
+        edge, perpendicular,
+        axes = polygon.getAxes(),
+        closestPoint = getPolygonPointClosestToCircle(polygon, circle);
 
     v1 = new Vector(new Point(circle.x, circle.y));
     v2 = new Vector(new Point(closestPoint.x, closestPoint.y));

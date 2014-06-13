@@ -74,7 +74,7 @@ gameSuccess = function () {
 
     //if (ball.x >= (game.context.canvas.width - ball.radius) && ball.y == ball.radius){
     if (ball.x >= 300 && ball.y <= 15 ){
-        alert('you win!');
+        //alert('you win!');
         game.togglePaused();
     }
 
@@ -122,12 +122,6 @@ calculateBall = function (ball) {
 
 paintBackground = function (context, x, y) {
     context.save();
-    if (game.getImage('/resource/bg2.jpg')) {
-        ok();
-        context.drawImage(game.getImage('/resource/bg2.jpg'), x, y)
-    }
-    //context.fillStyle = 'rgba(0, 0, 255, 0.5)';
-    //context.fillRect(0, 0, context.canvas.width, context.canvas.height);
     context.restore();
 };
 
@@ -217,9 +211,9 @@ btnStart.onclick = function (e) {
 
     progressDiv.appendChild(progressbar.domElement);
 
-    game.queueImage('/images/image1.png');
-    game.queueImage('/resource/bg1.jpg');
-    game.queueImage('/resource/bg2.jpg');
+    //game.queueImage('/images/image1.png');
+    //game.queueImage('/resource/bg1.jpg');
+    //game.queueImage('/resource/bg2.jpg');
 
     interval = setInterval( function (e) {
         loadingPercentComplete = game.loadImages();
@@ -254,9 +248,9 @@ btnStart.onclick = function (e) {
             }, 500);
         }
         progressbar.draw(loadingPercentComplete);
-        game.start();
     }, 16);
 };
 
 // Start game.................................................
+game.start();
 

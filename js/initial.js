@@ -32,7 +32,7 @@ ok = function (text){
     game.context.save();
     game.context.fillStyle = 'rgba(0, 0, 0, 1)';
     if (text) {
-        game.context.fillText(text, 20, 40)
+        game.context.fillText(text, 120, 40)
     }
     game.context.restore();
 };
@@ -42,8 +42,8 @@ gameSuccess = function () {
 
     //if (ball.x >= (game.context.canvas.width - ball.radius) && ball.y == ball.radius){
     if (ball.x >= 300 && ball.y <= 15 ){
-        alert('you win!');
         game.togglePaused();
+        ok('you win!');
     }
 
 };
@@ -53,7 +53,6 @@ detectCollisions = function (){
     for (var i = 0; i < (shapes.length - 1); ++i) {
         shape = shapes[i];
         if(ball.collidesWith(shape)){
-            ok('touch')
             ball.physics.xSpeed = -ball.physics.xSpeed;
             game.playSound('pop');
         }
@@ -185,7 +184,7 @@ btnStart.onclick = function (e) {
     progressDiv.appendChild(progressbar.domElement);
 
     game.queueImage('/images/image1.png');
-    game.queueImage('/resource/bg.jpg');
+    //game.queueImage('/resource/bg.jpg');
 
     interval = setInterval( function (e) {
         loadingPercentComplete = game.loadImages();

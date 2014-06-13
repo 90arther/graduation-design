@@ -147,6 +147,7 @@ Game.prototype = {
                 function (time) {
                     self.animate.call(self, time);
                 });
+
         }
     },
 
@@ -202,6 +203,7 @@ Game.prototype = {
         return velocity / this.fps;
     },
 
+    //HighScores............................................................
     getHighScores: function () {
         var key = this.gameName + this.HIGH_SCORES_SUFFIX,
             highScoresString = localStorage[key];
